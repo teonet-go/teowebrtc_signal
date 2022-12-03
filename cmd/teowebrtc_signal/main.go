@@ -1,4 +1,4 @@
-// Copyright 2021 Kirill Scherba <kirill@scherba.ru>. All rights reserved.
+// Copyright 2021-2022 Kirill Scherba <kirill@scherba.ru>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -12,8 +12,8 @@ import (
 	"github.com/teonet-go/teowebrtc_signal"
 )
 
-var addr = flag.String("addr", ":8080", "http service address")
-var addrSSL = flag.String("addr", ":8081", "https service address")
+var addr = flag.String("addr", ":8081", "http service address")
+var addrSSL = flag.String("addr-ssl", ":8082", "https service address")
 
 func main() {
 	flag.Parse()

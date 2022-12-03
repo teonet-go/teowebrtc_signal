@@ -1,4 +1,4 @@
-// Copyright 2021 Kirill Scherba <kirill@scherba.ru>. All rights reserved.
+// Copyright 2021-2022 Kirill Scherba <kirill@scherba.ru>. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -38,7 +38,7 @@ type loginSignal struct {
 type signalSignal struct {
 	Signal string `json:"signal"`
 	Peer   string `json:"peer"`
-	Data   []byte `json:"data"`
+	Data   interface{} `json:"data"`
 }
 
 func (sig *Signal) addPeer(address string, conn *websocket.Conn) {
@@ -84,6 +84,7 @@ func (sig *Signal) serveWS(addr, addrTLS string, certAndKey ...string) {
 		log.Println("strat ws server at:", addr)
 		log.Fatal(http.ListenAndServe(addr, nil))
 	}()
+	select {}
 	log.Println("strat wws server at:", addrTLS)
 	var certFile = "server.crt"
 	var keyFile = "server.key"
@@ -197,13 +198,14 @@ func (sig *Signal) signal(w http.ResponseWriter, r *http.Request) {
 			log.Printf("Resend %s to %s", s.Signal, s.Peer)
 			conn, ok := sig.getPeer(s.Peer)
 			if !ok {
-				err := errors.New("peer does not connected")
+				err := errors.New("peer " + s.Peer + " does not connected")
 				writeErrMessage(mt, err)
 				continue
 			}
 			s.Peer = address
 			message, err = json.Marshal(s)
 			if err != nil {
+				log.Println("can't marshal")
 				return
 			}
 			conn.WriteMessage(mt, message)
