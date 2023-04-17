@@ -10,12 +10,14 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"sync"
 
 	"github.com/gorilla/websocket"
+	"github.com/teonet-go/teowebrtc_log"
 )
+
+var log = teowebrtc_log.GetLog(teowebrtc_log.Package_teowebrtc_signal)
 
 // New create new teonet webrtc signal server
 func New(addr, addrSSL string, certAndKey ...string) (sig *Signal) {
@@ -36,8 +38,8 @@ type loginSignal struct {
 }
 
 type signalSignal struct {
-	Signal string `json:"signal"`
-	Peer   string `json:"peer"`
+	Signal string      `json:"signal"`
+	Peer   string      `json:"peer"`
 	Data   interface{} `json:"data"`
 }
 
@@ -121,7 +123,7 @@ func (sig *Signal) signal(w http.ResponseWriter, r *http.Request) {
 	// writeErrMessage write json message with error
 	writeErrMessage := func(messageType int, err error) {
 		msg := []byte(fmt.Sprintf("{\"err\":\"%s\"}", err))
-		log.Print("Error: ", err)
+		log.Print("error: ", err)
 		c.WriteMessage(messageType, msg)
 	}
 
@@ -136,13 +138,13 @@ func (sig *Signal) signal(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Befor close
-	defer func() { log.Printf("Connection to %s closed", address) }()
+	defer func() { log.Printf("connection to %s closed", address) }()
 
 	// Process messages
 	for {
 		mt, message, err := c.ReadMessage()
 		if err != nil {
-			log.Println("Read message error:", err)
+			log.Println("read message error:", err)
 			return
 		}
 
@@ -172,7 +174,7 @@ func (sig *Signal) signal(w http.ResponseWriter, r *http.Request) {
 			// Save login
 			address = s.Login
 
-			log.Printf("Got %s from %s", signal, address)
+			log.Printf("got %s from %s", signal, address)
 
 			// Add peer to users map and remove it when connection closed
 			sig.addPeer(s.Login, c)
@@ -184,7 +186,7 @@ func (sig *Signal) signal(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			log.Printf("Got %s from %s", signal, address)
+			log.Printf("got %s from %s", signal, address)
 
 			// Unmarshal signal
 			var s signalSignal
@@ -195,7 +197,7 @@ func (sig *Signal) signal(w http.ResponseWriter, r *http.Request) {
 			}
 
 			// Resend signal to peer
-			log.Printf("Resend %s to %s", s.Signal, s.Peer)
+			log.Printf("resend %s to %s", s.Signal, s.Peer)
 			conn, ok := sig.getPeer(s.Peer)
 			if !ok {
 				err := errors.New("peer " + s.Peer + " does not connected")
