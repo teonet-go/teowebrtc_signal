@@ -3,9 +3,9 @@ module github.com/teonet-go/teowebrtc_signal
 // For testing
 // replace github.com/teonet-go/teowebrtc_log => ../teowebrtc_log
 
-go 1.20
+go 1.23.4
 
 require (
-	github.com/gorilla/websocket v1.5.0
-	github.com/teonet-go/teowebrtc_log v0.0.1
+	github.com/gorilla/websocket v1.5.3
+	github.com/teonet-go/teowebrtc_log v0.2.0
 )
