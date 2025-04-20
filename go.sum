@@ -1,4 +1,4 @@
 github.com/gorilla/websocket v1.5.3 h1:saDtZ6Pbx/0u+bgYQ3q96pZgCzfhKXGPqt7kZ72aNNg=
 github.com/gorilla/websocket v1.5.3/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
-github.com/teonet-go/teowebrtc_log v0.2.0 h1:O2/1onQP9u8yGNN44v9b9qK7dF9MV+MLo+aeaplZBLc=
-github.com/teonet-go/teowebrtc_log v0.2.0/go.mod h1:dw2yUk20D69vr3lREm03gcKTHH/lu4B/bPua+fMOc4s=
+github.com/teonet-go/teowebrtc_log v0.2.1 h1:MGXwA/UM5CL3zdKyESJiKCIWa719uswKIYbLGi1yzus=
+github.com/teonet-go/teowebrtc_log v0.2.1/go.mod h1:hEtXAwn0WxJFSqJUw9cx21p975iDeSnhu7sus4G7sVY=
